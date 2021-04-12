@@ -22,16 +22,13 @@ export class EditComponent implements OnInit {
 
     activatedRoute.paramMap.subscribe((p) => {
       const id = +p.get('id');
-      const song = this.service.getById(id);
-      if (song !== null) {
+      this.service.getById(id).subscribe((song) => {
         this.name = song.name;
         this.artist = song.artist;
         this.album = song.album;
         this.time = song.time;
         this.id = song.id;
-      } else {
-        router.navigateByUrl('/');
-      }
+      }, () => router.navigateByUrl('/'));
     });
   }
 
@@ -39,8 +36,7 @@ export class EditComponent implements OnInit {
   }
 
   edit() {
-    this.service.edit(this.id, this.name, this.artist, this.album, this.time);
-
-    this.router.navigateByUrl('/');
+    this.service.edit(this.id, this.name, this.artist, this.album, this.time)
+      .subscribe(() => this.router.navigateByUrl('/'));
   }
 }

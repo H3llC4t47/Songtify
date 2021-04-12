@@ -12,7 +12,7 @@ export class PlaylistComponent implements OnInit {
   service: SongsService;
 
   constructor(service: SongsService) {
-    this.songs = service.getSongs();
+    service.getSongs().subscribe((songs) => this.songs = songs);
     this.service = service;
   }
 
@@ -22,7 +22,7 @@ export class PlaylistComponent implements OnInit {
 
   delete(id: number) {
 
-    this.service.delete(id);
-    this.songs = this.service.getSongs();
+    this.service.delete(id).subscribe();
+    this.service.getSongs().subscribe((songs) => this.songs = songs);
   }
 }

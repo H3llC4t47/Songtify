@@ -24,7 +24,7 @@ export class AddSongComponent implements OnInit {
   }
 
   submit() {
-    this.service.add(this.name, this.artist, this.album, this.time);
-    this.router.navigateByUrl('/');
+    this.service.add(this.name, this.artist, this.album, this.time)
+      .subscribe(() => this.router.navigateByUrl('/'));
   }
 }

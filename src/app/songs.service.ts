@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Song} from './song';
+import {from, Observable, of, throwError} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +19,7 @@ export class SongsService {
   constructor() {
   }
 
-  edit(id: number, name: string, artist: string, album: string, time: string) {
+  edit(id: number, name: string, artist: string, album: string, time: string): Observable<Song> {
     for (let i = 0; i < this.songs.length; i++) {
       const song = this.songs[i];
       if (song.id === id) {
@@ -26,39 +27,47 @@ export class SongsService {
         song.artist = artist;
         song.album = album;
         song.time = time;
+
+        return of (song);
       }
     }
+    return throwError(new Error());
   }
 
-  add(name: string, artist: string, album: string, time: string) {
+  add(name: string, artist: string, album: string, time: string): Observable<Song> {
 
-    this.songs.push({name, artist, album, time, id: this.lastid + 1});
+    const song = {name, artist, album, time, id: this.lastid + 1};
+
+    this.songs.push(song);
 
     this.lastid = this.lastid + 1;
+
+    return of (song);
   }
 
-  delete(id: number) {
+  delete(id: number): Observable<void> {
 
     for (let i = 0; i < this.songs.length; i++) {
       const song = this.songs[i];
       if (song.id === id) {
         this.songs.splice(i, 1);
-        return;
+        return of ();
       }
     }
+    return throwError(new Error());
   }
 
-  getById(id: number): Song {
+  getById(id: number): Observable<Song> {
     for (let x = 0; x < this.songs.length; x++) {
       const song = this.songs[x];
       if (song.id === id) {
-        return song;
+        return of(song);
       }
     }
-    return null;
+    return throwError(new Error());
   }
 
-  getSongs(): Song[] {
-    return [...this.songs];
+  getSongs(): Observable<Song[]> {
+    return of([...this.songs]);
   }
 }
