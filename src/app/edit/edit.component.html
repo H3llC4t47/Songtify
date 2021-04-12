@@ -1,0 +1,14 @@
+<h2>Edit this song</h2>
+<form (ngSubmit)="edit()">
+  Name:
+  <input name="name" [(ngModel)]="name" class="form-control">
+  Artist:
+  <input name="artist" [(ngModel)]="artist" class="form-control">
+  Album:
+  <input name="album" [(ngModel)]="album" class="form-control">
+  Time:
+  <input name="time" [(ngModel)]="time" class="form-control">
+
+  <button>Edit</button>
+
+</form>
